@@ -4,7 +4,7 @@
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 from data import MENU
-from helpers import print_report, order
+from helpers import print_report, order, val_input
 
 off = False
 
@@ -12,7 +12,7 @@ off = False
 def main():
 
     while not off:
-        user_action = input("What would you like? (espresso/latte/cappuccino): ")
+        user_action = val_input("What would you like? (espresso/latte/cappuccino): ", valid=[action for action in actions])
 
         actions[user_action]()
 
