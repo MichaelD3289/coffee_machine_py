@@ -80,18 +80,18 @@ def val_input(question: str, error: str = "Invalid - Try again: ", **valid_input
 
     RETURN: feedback (str): string representing what the user typed
     """
-    feedback = input(question)
+    response = input(question)
     while True:
 
-        matches_contraint = False
+        matches_valid_options = False
 
-        for constraint in valid_inputs:
-            if feedback in valid_inputs[constraint]:
-                matches_contraint = True
+        for option in valid_inputs:
+            if response in valid_inputs[option]:
+                matches_valid_options = True
                 break
 
-        if matches_contraint:
-            return feedback
+        if matches_valid_options:
+            return response
             break
 
-        feedback = input(error)
+        response = input(error)
