@@ -10,9 +10,9 @@ off = False
 
 
 def main():
-
+    starting_question = "What would you like? (espresso/latte/cappuccino): "
     while not off:
-        user_action = val_input("What would you like? (espresso/latte/cappuccino): ", valid=[action for action in actions])
+        user_action = val_input(starting_question, valid=[action for action in actions])
 
         actions[user_action]()
 

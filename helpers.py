@@ -2,6 +2,7 @@ from data import resources, MENU, COINS
 
 
 def print_report():
+    """Prints each resource and amount found in machine"""
     for resource, meta in resources.items():
         if meta["unit"] == "$":
             print(f"{resource.title()}: {meta['unit']}{'{:.2f}'.format(meta['amount'])}")
@@ -10,7 +11,12 @@ def print_report():
 
 
 def order(drink):
+    """
+    Returns item_order creating a closure. Allows order to be called with drink argument that item_order has access to
+    when called itself
+    """
     def item_order():
+        """"""
         can_make = check_resources(drink)
         if not can_make[0]:
             print(f"Sorry there is not enough {can_make[1]}.")
@@ -25,6 +31,10 @@ def order(drink):
 
 
 def check_resources(drink):
+    """
+    checks drinks required ingredients against machines resources and returns a list with boolean value at [0]
+    representing enough resources and the missing item name at [1]
+    """
     have_enough = True
     missing_item = ""
     for name, amount_needed in MENU[drink]["ingredients"].items():
@@ -36,6 +46,10 @@ def check_resources(drink):
 
 
 def take_payment(drink):
+    """
+    Collects coin amounts from user, checks total against drink cost, adjusts machine money resource if users
+    payment matches or exceeds drink cost and returns True/False based on successful payment
+     """
     print("Please insert coins.")
     coin_total = 0
     for coin in COINS:
@@ -51,6 +65,12 @@ def take_payment(drink):
     return False
 
 
+def subtract_drink_resources(drink):
+    """"Will subtract each ingredient found in drink from machine resources"""
+    for name, amount in MENU[drink]["ingredients"].items():
+        adjust_resource(name, amount, '-')
+
+
 def adjust_resource(resource, amount, operation):
     """given resource, amount and operation('+' or '-) will adjust machines general resources"""
     if operation == "-":
@@ -60,21 +80,15 @@ def adjust_resource(resource, amount, operation):
     resources[resource]["amount"] += amount
 
 
-def subtract_drink_resources(drink):
-    for name, amount in MENU[drink]["ingredients"].items():
-        adjust_resource(name, amount, '-')
-
-
 def val_input(question: str, error: str = "Invalid - Try again: ", **valid_inputs: list) -> str:
     """
-    function that requires user to type valid input. Will display error on invalid input and require user type another answer
-
-    NOTE: This function will return their input as a string. If a different data type is needed the return value will need to be cast as that data type. keycontrainsts list items must be of type string. No data conversion for comparison evaluation will be done.
+    Requires user to type valid input. Will display error on invalid input and require user to retry until
+    successful.
 
     ARGS:
     question (str): question that will be displayed to the user to ask for the input
 
-    error (str) optional: message displayed to let the user their input was invalid
+    error (str) optional: message displayed to let the user know their input was invalid
 
     valid_inputs (strlist): any number of arguments may be given. Use key=value (Ex: valid=["1","2","3","4","5"])
 
